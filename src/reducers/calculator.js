@@ -30,6 +30,7 @@ export default function calculator(state = DEFAULT_STATE, action) {
       if (state.display.length <= 1) {
         return Object.assign({}, state, {
           display: '0',
+          overwrite: true,
         });
       } else {
         return Object.assign({}, state, {

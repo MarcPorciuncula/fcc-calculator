@@ -1,0 +1,79 @@
+
+.calculator {
+  width: calc(40 * var(--baseline));
+  height: calc(64 * var(--baseline));
+  background-color: #bdbdbd;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: right;
+  background-color: #ffffff;
+  box-sizing: content-box;
+  height: calc(20 * var(--baseline));
+  padding: calc(1 * var(--baseline));
+}
+
+.current-value {
+  font-size: 64px;
+  margin: 0;
+  letter-spacing: -0.03em;
+  display: block;
+}
+
+.history {
+  margin: 0;
+  display: block;
+}
+
+.result {
+  color: #9E9E9E;
+  font-size: 20px;
+  margin: 5px 0;
+}
+
+.controls {
+  display: flex;
+  color: white;
+  flex-grow: 1;
+  font-family: 'Roboto', sans-serif;
+}
+
+.numpad {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  background-color: #424242;
+  width: 75%;
+}
+
+.operations {
+  display: flex;
+  width: 25%;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #616161;
+}
+
+.key {
+  font: inherit;
+  font-weight: regular;
+  background: none;
+  border: none;
+  color: inherit;
+  width: calc(8 * var(--baseline));
+  height: calc(8 * var(--baseline));
+  padding: 0;
+  margin: var(--baseline);
+  font-size: calc(3 * var(--baseline));
+}
+
+.key.text {
+  font-size: calc(2 * var(--baseline));
+}
