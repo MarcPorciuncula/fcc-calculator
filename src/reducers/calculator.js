@@ -13,7 +13,7 @@ export const BACKSPACE = 'BACKSPACE';
 export const RESET = 'RESET';
 
 const DEFAULT_STATE = {
-  display: 0,
+  display: '0',
   pending: null,
   overwrite: true,
   history: [],
@@ -23,28 +23,38 @@ export default function calculator(state = DEFAULT_STATE, action) {
   switch (action.type) {
     case CLEAR_DISPLAY:
       return Object.assign({}, state, {
-        display: 0,
+        display: '0',
+        overwrite: true,
       });
     case BACKSPACE:
-      if (state.display.toString().length <= 1) {
+      if (state.display.length <= 1) {
         return Object.assign({}, state, {
-          display: 0,
+          display: '0',
         });
       } else {
         return Object.assign({}, state, {
-          display: parseInt(state.display.toString().substr(0, state.display.toString().length - 1), 10),
+          display: state.display.substr(0, state.display.length - 1),
         });
       }
     case INPUT_DIGIT:
+      if (action.digit === '.' && state.display.indexOf('.') > -1) {
+        return state;
+      }
+      if ((action.digit === '.' && state.display === '0') || (action.digit === '.' && state.overwrite)) {
+        return Object.assign({}, state, {
+          display: '0.',
+          overwrite: false,
+        });
+      }
       if (state.overwrite) {
         return Object.assign({}, state, {
-          display: action.digit,
+          display: action.digit.toString(),
           pending: state.pending ? state.pending : SET, // if you start typing when there's nothing pending, it becomes a SET
           overwrite: false,
         });
       } else {
         return Object.assign({}, state, {
-          display: parseInt(`${state.display}${action.digit}`, 10),
+          display: `${state.display}${action.digit}`,
         });
       }
     case RESET:
@@ -61,7 +71,7 @@ export default function calculator(state = DEFAULT_STATE, action) {
         return Object.assign({}, state, {
           overwrite: true,
           pending: action.type,
-          history: [...state.history, { type: state.pending, number: state.display }],
+          history: [...state.history, { type: state.pending, number: parseFloat(state.display, 10) }],
         });
       } else {
         return Object.assign({}, state, {
@@ -72,12 +82,12 @@ export default function calculator(state = DEFAULT_STATE, action) {
     case APPLY: {
       let history = state.history;
       if (state.pending) {
-        history = [...history, { type: state.pending, number: state.display }];
+        history = [...history, { type: state.pending, number: parseFloat(state.display, 10) }];
       } else if (history.length) {
         history = [...history, history[history.length - 1]];
       }
       return Object.assign({}, state, {
-        display: history.reduce(calculate, undefined) || 0,
+        display: (history.reduce(calculate, undefined) || 0).toString(),
         overwrite: true,
         pending: null,
         history,
@@ -86,7 +96,7 @@ export default function calculator(state = DEFAULT_STATE, action) {
     case UNDO: {
       const history = state.history.slice(0, state.history.length - 1);
       return Object.assign({}, state, {
-        display: history.reduce(calculate, undefined) || 0,
+        display: (history.reduce(calculate, undefined) || 0).toString(),
         overwrite: true,
         pending: null,
         history,

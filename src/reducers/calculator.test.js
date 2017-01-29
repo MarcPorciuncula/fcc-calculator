@@ -21,7 +21,7 @@ test('input the first digit', (t) => {
     type: INPUT_DIGIT,
     digit: 1,
   }].reduce(calculator, undefined);
-  t.is(state.display, 1);
+  t.is(state.display, '1');
 });
 
 test('the first operation commits a set to history', (t) => {
@@ -55,7 +55,7 @@ test('after an apply, a digit input triggers a SET and overwrites', (t) => {
     digit: 5,
   }].reduce(calculator, undefined);
   t.is(state.pending, SET);
-  t.is(state.display, 5);
+  t.is(state.display, '5');
 });
 
 test('addition', (t) => {
@@ -72,7 +72,7 @@ test('addition', (t) => {
   }, {
     type: APPLY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 2);
+  t.is(state.display, '2');
 });
 
 test('subtraction', (t) => {
@@ -89,7 +89,7 @@ test('subtraction', (t) => {
   }, {
     type: APPLY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 0);
+  t.is(state.display, '0');
 });
 
 test('multiplication', (t) => {
@@ -106,7 +106,7 @@ test('multiplication', (t) => {
   }, {
     type: APPLY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 18);
+  t.is(state.display, '18');
 });
 
 test('division', (t) => {
@@ -123,7 +123,7 @@ test('division', (t) => {
   }, {
     type: APPLY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 3);
+  t.is(state.display, '3');
 });
 
 test('resumes as normal after an apply', (t) => {
@@ -147,7 +147,7 @@ test('resumes as normal after an apply', (t) => {
   }, {
     type: APPLY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 3);
+  t.is(state.display, '3');
 });;
 
 test('you can overwrite after an apply', (t) => {
@@ -169,7 +169,7 @@ test('you can overwrite after an apply', (t) => {
   }, {
     type: APPLY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 1);
+  t.is(state.display, '1');
 });
 
 test('undo', (t) => {
@@ -190,7 +190,7 @@ test('undo', (t) => {
   }, {
     type: UNDO,
   }].reduce(calculator, undefined);
-  t.is(state.display, 6);
+  t.is(state.display, '6');
 });
 
 test('an undo with no history results in no change', (t) => {
@@ -229,7 +229,7 @@ test('an apply after an apply repeats the last operation', (t) => {
   }, {
     type: APPLY
   }].reduce(calculator, undefined);
-  t.is(state.display, 26);
+  t.is(state.display, '26');
 });
 
 test('clear display', (t) => {
@@ -241,7 +241,7 @@ test('clear display', (t) => {
   }, {
     type: CLEAR_DISPLAY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 0);
+  t.is(state.display, '0');
   state = [{
     type: '@init',
   }, {
@@ -253,12 +253,12 @@ test('clear display', (t) => {
   }, {
     type: CLEAR_DISPLAY,
   }].reduce(calculator, undefined);
-  t.is(state.display, 0);
+  t.is(state.display, '0');
   state = [{
     type: INPUT_DIGIT,
     digit: 3
   }].reduce(calculator, state);
-  t.is(state.display, 3);
+  t.is(state.display, '3');
 });
 
 test('RESET returns calculator to original state', (t) => {
@@ -296,5 +296,22 @@ test('BACKSPACE removes the last digit', (t) => {
   }, {
     type: BACKSPACE,
   }].reduce(calculator, undefined);
-  t.is(state.display, 6);
+  t.is(state.display, '6');
+});
+
+test('you can add deimal points', (t) => {
+  let state = [{
+    type: '@init',
+  }, {
+    type: INPUT_DIGIT,
+    digit: '.',
+  }].reduce(calculator, undefined);
+  t.is(state.display, '0.');
+  state = [{
+    type: '@init',
+  }, {
+    type: INPUT_DIGIT,
+    digit: '1',
+  }].reduce(calculator, state);
+  t.is(state.display, '0.1');
 });
