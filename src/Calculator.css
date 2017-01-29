@@ -1,7 +1,7 @@
 
 .calculator {
   width: calc(40 * var(--baseline));
-  height: calc(64 * var(--baseline));
+  height: calc(68 * var(--baseline));
   background-color: #bdbdbd;
   display: flex;
   flex-direction: column;
@@ -13,10 +13,19 @@
   flex-direction: column;
   justify-content: flex-end;
   text-align: right;
+  align-items: flex-end;
   background-color: #ffffff;
   box-sizing: content-box;
   height: calc(20 * var(--baseline));
   padding: calc(1 * var(--baseline));
+}
+
+.overflow-container-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  overflow: hidden;
+  width: 100%;
 }
 
 .current-value {
@@ -35,6 +44,7 @@
   color: #9E9E9E;
   font-size: 20px;
   margin: 5px 0;
+  display: block;
 }
 
 .controls {
@@ -76,4 +86,8 @@
 
 .key.text {
   font-size: calc(2 * var(--baseline));
+}
+
+.operator {
+  margin: 0 0.25em;
 }

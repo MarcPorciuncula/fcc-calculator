@@ -17,20 +17,27 @@ function Key({ children, text, ...rest }) {
 }
 
 function HistoryEntry({ type, number }) {
+  let operator;
   switch (type) {
-    case 'SET':
-      return <span>{number}</span>;
     case 'ADD':
-      return <span>+{number}</span>;
+      operator = '+';
+      break;
     case 'SUBTRACT':
-      return <span>-{number}</span>;
+      operator = '-';
+      break;
     case 'MULTIPLY':
-      return <span>×{number}</span>;
+      operator = '×';
+      break;
     case 'DIVIDE':
-      return <span>÷{number}</span>
+      operator = '÷';
+      break;
     default:
-      return null;
+      operator = '';
+      break;
   }
+  return (
+    <span><span className="operator">{operator}</span>{number}</span>
+  );
 }
 
 class Calculator extends React.Component {
@@ -53,15 +60,21 @@ class Calculator extends React.Component {
     return (
       <div className="calculator">
         <div className="display">
-          <p className="history">
-            {history}
-          </p>
-          <p className="current-value">
-            {this.props.display}
-          </p>
-          <p className="result">
-            {projected}
-          </p>
+          <div className="overflow-container-end">
+            <p className="history">
+              {history}
+            </p>
+          </div>
+          <div className="overflow-container-end">
+            <p className="current-value">
+              {this.props.display}
+            </p>
+          </div>
+          <div className="overflow-container-end">
+            <p className="result">
+              {projected}
+            </p>
+          </div>
         </div>
         <div className="controls">
           <div className="numpad">
