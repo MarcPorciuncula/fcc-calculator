@@ -86,7 +86,7 @@ class Calculator extends React.Component {
             ))}
           </div>
           <div className="operations">
-            {this.props.display === '0' ?
+            {this.props.overwrite ?
               <Key text onClick={this.props.clear}>CLR</Key>
               :
               <Key text onClick={this.props.backspace}>DEL</Key>
